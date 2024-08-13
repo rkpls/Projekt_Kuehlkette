@@ -1,10 +1,10 @@
 import pyodbc
-# Verbindungsdaten
+    # Verbindungsdaten
 server = 'sc-db-server.database.windows.net'
 database = 'supplychain' # Setze den Namen deiner Datenbank hier ein
 username = 'rse'
 password = 'Pa$$w0rd'
-# Verbindungsstring
+    # Verbindungsstring
 conn_str = (
     f'DRIVER={{ODBC Driver 17 for SQL Server}};'
     f'SERVER={server};'
@@ -12,13 +12,13 @@ conn_str = (
     f'UID={username};'
     f'PWD={password}'
 )
-# Verbindung herstellen
+    # Verbindung herstellen
 conn = pyodbc.connect(conn_str)
-# Cursor erstellen
+    # Cursor erstellen
 cursor = conn.cursor()
-# SQL-Statement ausführen
+    # SQL-Statement ausführen
 cursor.execute('SELECT * FROM coolchain1')
-# Ergebnisse ausgeben
+    # Ergebnisse ausgeben
 for row in cursor:
     print(row)
 # Verbindung schließen
