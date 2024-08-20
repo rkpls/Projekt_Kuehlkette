@@ -24,4 +24,3 @@ Tkinter:
 win+r cmd
     pip install customtkinter
 
-
