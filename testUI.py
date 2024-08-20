@@ -45,8 +45,8 @@ def display_results(results):
         text_results.insert(ctk.END, "No results found for Transport ID: " + entry_transport_id.get() + "\n")
 
 # Set up the main application window with customtkinter
-ctk.set_appearance_mode("Dark")  # Modes: "Dark", "Light", "System"
-ctk.set_default_color_theme("blue")  # Themes: "blue", "green", "dark-blue"
+ctk.set_appearance_mode("System")
+ctk.set_default_color_theme("blue")
 
 root = ctk.CTk()
 root.title("Database Query Tool")
