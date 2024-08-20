@@ -15,3 +15,13 @@ ODBC Driver 18 für SQL Server:
     https://learn.microsoft.com/de-de/sql/integration-services/import-export-data/connect-to-an-odbc-data-source-sql-server-import-and-export-wizard?view=sql-server-ver16
 
 
+
+Interface Libraries:
+Sqlite3:
+    https://dev.to/dendihandian/installing-sqlite3-in-windows-44eb
+
+Tkinter:
+win+r cmd
+    pip install customtkinter
+
+
