@@ -23,5 +23,4 @@ Sqlite3:
 Tkinter:
 win+r cmd
     pip install customtkinter
-    pip install PrettyTable
 

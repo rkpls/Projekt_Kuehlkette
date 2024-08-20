@@ -2,12 +2,12 @@ import pyodbc
 import customtkinter as ctk
 from tkinter import messagebox
 
-    # Verbindungsdaten
+# Connection details
 server = 'sc-db-server.database.windows.net'
-database = 'supplychain' # Setze den Namen deiner Datenbank hier ein
+database = 'supplychain'
 username = 'rse'
 password = 'Pa$$w0rd'
-    # Verbindungsstring
+
 conn_str = (
     f'DRIVER={{ODBC Driver 18 for SQL Server}};'
     f'SERVER={server};'
@@ -16,17 +16,17 @@ conn_str = (
     f'PWD={password}'
 )
 
-# Function to connect to the database and fetch data
+# Funktion zum verbinden zur Datenbank und fetch anhand ID
 def fetch_data():
-    transport_id = entry_transport_id.get()  # Get the transport_id from the entry widget
+    transport_id = entry_transport_id.get()  #ID anfragen in der GUI
     if not transport_id:
         messagebox.showerror("Input Error", "Please enter a valid Transport ID.")
         return
+
     try:
-        # Replace the following connection details with your own
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM coolchain1 WHERE transportid = ?', (transport_id,))
+        cursor.execute('SELECT transportstation, category, direction, datetime FROM coolchain1 WHERE transportid = ?', (transport_id,))
         results = cursor.fetchall()
         display_results(results)
     except pyodbc.Error as e:
@@ -35,37 +35,50 @@ def fetch_data():
         if conn:
             conn.close()
 
-# Function to display results in the GUI
+# Funktion zum Anzeigen der GUI
 def display_results(results):
-    text_results.delete('1.0', ctk.END)  # Clear previous results
-    if results:
-        for row in results:
-            text_results.insert(ctk.END, str(row) + "\n")
-    else:
-        text_results.insert(ctk.END, "No results found for Transport ID: " + entry_transport_id.get() + "\n")
+    # Leeren
+    for widget in frame_results.winfo_children():
+        widget.destroy()
 
-# Set up the main application window with customtkinter
+    if results:
+        # Tabellen Überschriften Setsen
+        headers = ["Ort", "Art der Station", "Ein- oder Ausgehend", "Datum und Uhrzeit"]
+        for i, header in enumerate(headers):
+            label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
+            label.grid(row=0, column=i, padx=10, pady=5)
+
+        # Daten in Tabelle einfügen
+        for row_index, row in enumerate(results, start=1):
+            for col_index, item in enumerate(row):
+                label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 12))
+                label.grid(row=row_index, column=col_index, padx=10, pady=5)
+    else:
+        no_result_label = ctk.CTkLabel(frame_results, text="No results found for Transport ID: " + entry_transport_id.get(), font=("Arial", 12))
+        no_result_label.pack(pady=20)
+
+#GUI Fenster setup
 ctk.set_appearance_mode("System")
 ctk.set_default_color_theme("blue")
 
 root = ctk.CTk()
-root.title("Database Query Tool")
+root.title("Coolchain Projekt 1 Interface")
 root.geometry("800x600")
 
-# Create a custom label and entry widget for Transport ID input
-label_transport_id = ctk.CTkLabel(root, text="Enter Transport ID:", font=("Arial", 14))
+# Input Widget Setup
+label_transport_id = ctk.CTkLabel(root, text="Transport ID:", font=("Arial", 14))
 label_transport_id.pack(pady=20)
 
 entry_transport_id = ctk.CTkEntry(root, width=600, font=("Arial", 12))
 entry_transport_id.pack(pady=10)
 
-# Create a button to execute the query
-button_execute = ctk.CTkButton(root, text="Fetch Data", command=fetch_data, width=200)
+# Button
+button_execute = ctk.CTkButton(root, text="Anfragen", command=fetch_data, width=200)
 button_execute.pack(pady=20)
 
-# Create a text widget to display query results
-text_results = ctk.CTkTextbox(root, width=760, height=300, font=("Arial", 12))
-text_results.pack(pady=20)
+# GUI Frame
+frame_results = ctk.CTkFrame(root, width=760, height=300)
+frame_results.pack(pady=20, padx=20, fill="both", expand=True)
 
 # Start the GUI event loop
 root.mainloop()
