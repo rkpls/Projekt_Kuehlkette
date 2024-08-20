@@ -19,13 +19,8 @@ conn_str = (
 # 95662334024905944384522
 
 while True:
-        # Verbindung herstellen
     conn = pyodbc.connect(conn_str)
-        # Cursor erstellen
     cursor = conn.cursor()
-        # SQL-Statement ausführen
-    cursor.execute('SELECT * FROM coolchain1')
-
     transport_id = input("Enter transport ID: ")
     cursor.execute('SELECT * FROM coolchain1 WHERE transportid = ?', (transport_id,))
     row = cursor.fetchone()
