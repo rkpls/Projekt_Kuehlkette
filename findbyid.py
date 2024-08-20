@@ -12,15 +12,27 @@ conn_str = (
     f'UID={username};'
     f'PWD={password}'
 )
-    # Verbindung herstellen
-conn = pyodbc.connect(conn_str)
-    # Cursor erstellen
-cursor = conn.cursor()
-    # SQL-Statement ausführen
-cursor.execute('SELECT * FROM coolchain1')
+
+# copy paste ids zum testen:
+# 84552276793340958450995
+# 34778534098134729847267
+# 95662334024905944384522
 
 while True:
-    id = input()
+        # Verbindung herstellen
+    conn = pyodbc.connect(conn_str)
+        # Cursor erstellen
+    cursor = conn.cursor()
+        # SQL-Statement ausführen
+    cursor.execute('SELECT * FROM coolchain1')
 
-cursor.close()
-conn.close()
+    transport_id = input("Enter transport ID: ")
+    cursor.execute('SELECT * FROM coolchain1 WHERE transportid = ?', (transport_id,))
+    row = cursor.fetchone()
+    if row:
+        print(row)
+    else:
+        print("No row found with the given transport ID.")
+    cursor.close()
+    conn.close()
+

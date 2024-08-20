@@ -13,3 +13,5 @@ ODBC Driver 18 für SQL Server:
 
 (server in Windows hinzufügen:)
     https://learn.microsoft.com/de-de/sql/integration-services/import-export-data/connect-to-an-odbc-data-source-sql-server-import-and-export-wizard?view=sql-server-ver16
+
+
