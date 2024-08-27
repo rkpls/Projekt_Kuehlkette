@@ -1,7 +1,7 @@
 import pyodbc
     # Verbindungsdaten
 server = 'sc-db-server.database.windows.net'
-database = 'supplychain' # Setze den Namen deiner Datenbank hier ein
+database = 'supplychain'
 username = 'rse'
 password = 'Pa$$w0rd'
     # Verbindungsstring
