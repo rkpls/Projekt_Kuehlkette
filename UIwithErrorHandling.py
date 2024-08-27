@@ -53,7 +53,8 @@ def display_results(results, transport_id):
         previous_direction = None
         first_datetime = results[0][3]  # Ersten Zeiteintrag speichern
         last_datetime = None
-
+        previous_location = None
+        
         # Schleife zum eintragen der Daten in die Tabelle
         for row_index, row in enumerate(results, start=1):
             transportstation, category, direction, current_datetime = row
@@ -85,6 +86,12 @@ def display_results(results, transport_id):
             previous_datetime = current_datetime
             previous_direction = direction
 
+            # Doppelten Ort Überprüfen
+            if direction == "'in'" and previous_location == transportstation:
+                warnung = "Transportstation ist doppelt"
+                
+            previous_location = transportstation
+                
             # Display each column including the calculated time difference and error message
             row_data = [transportstation, category, direction, current_datetime, time_diff_str, warnung]
             for col_index, item in enumerate(row_data):
