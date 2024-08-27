@@ -68,7 +68,7 @@ def display_results(results, transport_id):
                 time_diff_str = str(time_difference)
                 
                 # Zeitstempel prüfen
-                if time_difference.total_seconds() < 10:
+                if time_difference.total_seconds() < 1:
                     warnung = "Implausibler Zeitstempel. "
 
                 # Übergabezeit prüfen
