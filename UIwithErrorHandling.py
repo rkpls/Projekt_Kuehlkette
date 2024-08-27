@@ -95,16 +95,20 @@ def display_results(results, transport_id):
             # Display each column including the calculated time difference and error message
             row_data = [transportstation, category, direction, current_datetime, time_diff_str, warnung]
             for col_index, item in enumerate(row_data):
-                label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 12))
-                label.grid(row=row_index, column=col_index, padx=10, pady=5)
+                if col_index == 5:
+                    label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 14, "bold"), text_color= "red")
+                    label.grid(row=row_index, column=col_index, padx=10, pady=5)
+                else:
+                    label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 12))
+                    label.grid(row=row_index, column=col_index, padx=10, pady=5)
 
         total_time_difference = last_datetime - first_datetime
         if total_time_difference > timedelta(hours=48):
-            final_error_label = ctk.CTkLabel(frame_results, text="Transportdauer über 48 Stunden.", font=("Arial", 12, "bold"), fg_color="red")
+            final_error_label = ctk.CTkLabel(frame_results, text="Transportdauer über 48 Stunden.", font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
 
     else:
-        no_result_label = ctk.CTkLabel(frame_results, text="Diese Transport ID existiert nicht: " + entry_transport_id.get(), font=("Arial", 12, "bold"), fg_color="red")
+        no_result_label = ctk.CTkLabel(frame_results, text="Diese Transport ID existiert nicht: " + entry_transport_id.get(), font=("Arial", 14, "bold"), fg_color="yellow")
         no_result_label.pack(pady=20)
 
 # Set up the main application window with customtkinter
