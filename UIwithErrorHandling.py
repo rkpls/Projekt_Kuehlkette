@@ -44,7 +44,7 @@ def display_results(results, transport_id):
         
     if results:
         # Create table headers
-        headers = ["Ort", "Kategorie", "richtung", "Zeitstempel", "Dauer", "Warnung"]
+        headers = ["Ort", "Kategorie", "Richtung", "Zeitstempel", "Dauer", "Warnung"]
         for i, header in enumerate(headers):
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
