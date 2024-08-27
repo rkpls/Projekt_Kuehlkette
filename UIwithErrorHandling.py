@@ -29,7 +29,7 @@ def fetch_data():
         cursor = conn.cursor()
         cursor.execute('SELECT transportstation, category, direction, datetime FROM coolchain1 WHERE transportid = ?', (transport_id,))
         results = cursor.fetchall()
-        display_results(results)
+        display_results(results, transport_id)
     except pyodbc.Error as e:
         messagebox.showerror("Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.", str(e))
     finally:
@@ -37,11 +37,11 @@ def fetch_data():
             conn.close()
 
 # Function to display results in the GUI with time difference and error detection
-def display_results(results):
-    # Clear previous results
+def display_results(results, transport_id):
+    # Vorherige Einträge leeren
     for widget in frame_results.winfo_children():
         widget.destroy()
-
+        
     if results:
         # Create table headers
         headers = ["Ort", "Kategorie", "richtung", "Zeitstempel", "Dauer", "Warnung"]
@@ -51,12 +51,14 @@ def display_results(results):
 
         previous_datetime = None
         previous_direction = None
+        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern
+        last_datetime = None
 
-        # Insert results into the table
+        # Schleife zum eintragen der Daten in die Tabelle
         for row_index, row in enumerate(results, start=1):
             transportstation, category, direction, current_datetime = row
 
-            # Initialize error message
+            last_datetime = current_datetime # aktuellen Zeiteintrag als letzten speichern
             warnung = " "
 
             # Zeitdifferenz berechnen
@@ -66,15 +68,11 @@ def display_results(results):
                 
                 # Zeitstempel prüfen
                 if time_difference.total_seconds() < 10:
-                    warnung += "Implausibler Zeitstempel. "
+                    warnung = "Implausibler Zeitstempel. "
 
                 # Übergabezeit prüfen
-                if  direction == 'in' and time_difference > timedelta(minutes=10):
-                    warnung += "Übergabezeit über 10 minuten. "
-
-                # Fahrzeit prüfen
-                if  category == 'KT' and direction == 'out' and time_difference > timedelta(minutes=10):
-                    warnung += "Transportzeit über 48h. "
+                if  direction == "'in'" and time_difference > timedelta(minutes=10):
+                    warnung = "Übergabezeit über 10 minuten. "
 
             else:
                 time_diff_str = "N/A"
@@ -82,7 +80,7 @@ def display_results(results):
             # auf doppelte oder fehlende einträge prüfen
             if previous_direction:
                 if previous_direction == direction:
-                    warnung += "Doppelter oder fehlender Eintrag. "
+                    warnung = "Doppelter oder fehlender Eintrag. "
 
             previous_datetime = current_datetime
             previous_direction = direction
@@ -92,8 +90,14 @@ def display_results(results):
             for col_index, item in enumerate(row_data):
                 label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 12))
                 label.grid(row=row_index, column=col_index, padx=10, pady=5)
+
+        total_time_difference = last_datetime - first_datetime
+        if total_time_difference > timedelta(hours=48):
+            final_error_label = ctk.CTkLabel(frame_results, text="Transportdauer über 48 Stunden.", font=("Arial", 12, "bold"), fg_color="red")
+            final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
+
     else:
-        no_result_label = ctk.CTkLabel(frame_results, text="Diese Transport ID existiert nicht: " + entry_transport_id.get(), font=("Arial", 12))
+        no_result_label = ctk.CTkLabel(frame_results, text="Diese Transport ID existiert nicht: " + entry_transport_id.get(), font=("Arial", 12, "bold"), fg_color="red")
         no_result_label.pack(pady=20)
 
 # Set up the main application window with customtkinter
