@@ -108,7 +108,7 @@ def display_results(results, transport_id):
             final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
 
     else:
-        no_result_label = ctk.CTkLabel(frame_results, text="Diese Transport ID existiert nicht: " + entry_transport_id.get(), font=("Arial", 14, "bold"), fg_color="yellow")
+        no_result_label = ctk.CTkLabel(frame_results, text="Diese Transport ID existiert nicht: " + entry_transport_id.get(), font=("Arial", 14, "bold"),text_color="black", fg_color="yellow")
         no_result_label.pack(pady=20)
 
 # Set up the main application window with customtkinter
