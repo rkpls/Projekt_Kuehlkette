@@ -1,11 +1,11 @@
 import pyodbc
 import customtkinter as ctk
 from tkinter import messagebox
+from datetime import datetime
 
 
-# test ID:
-# 99346757838434834886542
-
+# test ID No 1:
+# 72359278599178561029675
 
 # Connection details
 server = 'sc-db-server.database.windows.net'
@@ -47,15 +47,29 @@ def display_results(results):
         widget.destroy()
 
     if results:
-        # Tabellen Überschriften Setsen
-        headers = ["Ort", "Art der Station", "Ein- oder Ausgehend", "Datum und Uhrzeit"]
+        headers = ["Transport Station", "Category", "Direction", "Datetime", "Time Difference"]
         for i, header in enumerate(headers):
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
 
-        # Daten in Tabelle einfügen
+        previous_datetime = None
+
+        # Insert results into the table
         for row_index, row in enumerate(results, start=1):
-            for col_index, item in enumerate(row):
+            transportstation, category, direction, current_datetime = row
+
+            # Calculate time difference
+            if previous_datetime:
+                time_difference = current_datetime - previous_datetime
+                time_diff_str = str(time_difference)
+            else:
+                time_diff_str = "N/A"
+
+            previous_datetime = current_datetime
+
+            # Display each column including the calculated time difference
+            row_data = [transportstation, category, direction, current_datetime, time_diff_str]
+            for col_index, item in enumerate(row_data):
                 label = ctk.CTkLabel(frame_results, text=str(item), font=("Arial", 12))
                 label.grid(row=row_index, column=col_index, padx=10, pady=5)
     else:
