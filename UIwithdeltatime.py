@@ -47,7 +47,7 @@ def display_results(results):
         widget.destroy()
 
     if results:
-        headers = ["Transport Station", "Category", "Direction", "Datetime", "Time Difference"]
+        headers = ["Transport Station", "Kategorie", "Eingehend Ausgehend", "Uhrzeit", "Dauer"]
         for i, header in enumerate(headers):
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
