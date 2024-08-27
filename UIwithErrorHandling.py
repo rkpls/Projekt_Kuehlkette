@@ -69,11 +69,11 @@ def display_results(results, transport_id):
                 
                 # Zeitstempel prüfen
                 if time_difference.total_seconds() < 1:
-                    warnung = "Implausibler Zeitstempel. "
+                    warnung = "Nicht plausibler Zeitstempel"
 
                 # Übergabezeit prüfen
                 if  direction == "'in'" and time_difference > timedelta(minutes=10):
-                    warnung = "Übergabezeit über 10 minuten. "
+                    warnung = "Übergabezeit über 10 Minuten"
 
             else:
                 time_diff_str = "N/A"
@@ -81,7 +81,7 @@ def display_results(results, transport_id):
             # auf doppelte oder fehlende einträge prüfen
             if previous_direction:
                 if previous_direction == direction:
-                    warnung = "Doppelter oder fehlender Eintrag. "
+                    warnung = "Doppelter oder fehlender Eintrag"
 
             previous_datetime = current_datetime
             previous_direction = direction
@@ -104,7 +104,7 @@ def display_results(results, transport_id):
 
         total_time_difference = last_datetime - first_datetime
         if total_time_difference > timedelta(hours=48):
-            final_error_label = ctk.CTkLabel(frame_results, text="Transportdauer über 48 Stunden.", font=("Arial", 14, "bold"), text_color="red")
+            final_error_label = ctk.CTkLabel(frame_results, text="Transportdauer über 48 Stunden", font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
 
     else:
@@ -116,18 +116,18 @@ ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 
 root = ctk.CTk()
-root.title("Database Query Tool")
+root.title("Kühlketten Überwachung")
 root.geometry("900x600")
 
 # Create a custom label and entry widget for Transport ID input
-label_transport_id = ctk.CTkLabel(root, text="Enter Transport ID:", font=("Arial", 14))
+label_transport_id = ctk.CTkLabel(root, text="Transport ID eingeben:", font=("Arial", 14))
 label_transport_id.pack(pady=20)
 
 entry_transport_id = ctk.CTkEntry(root, width=600, font=("Arial", 12))
 entry_transport_id.pack(pady=10)
 
 # Create a button to execute the query
-button_execute = ctk.CTkButton(root, text="Fetch Data", command=fetch_data, width=200)
+button_execute = ctk.CTkButton(root, text="Daten prüfen", command=fetch_data, width=200)
 button_execute.pack(pady=20)
 
 # Create a frame to display query results in a table format
