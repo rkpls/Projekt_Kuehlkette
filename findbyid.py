@@ -12,7 +12,7 @@ import pyodbc
 server = 'sc-db-server.database.windows.net'
 database = 'supplychain'
 username = 'rse'
-password = 'Pa$$w0rd'  # Consider using environment variables for sensitive data
+password = 'Pa$$w0rd'
 
 # Verbindungsstring
 conn_str = (
