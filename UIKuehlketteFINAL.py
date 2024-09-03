@@ -11,7 +11,7 @@ ETS23-Python-SIZ-RSE
 
 Projekt:
 ETS-CoolChainProject-1 V1.2 Phase 1
-letzte Änderung: 02.09.2024
+letzte Änderung: 03.09.2024
 """
 
 import pyodbc
@@ -33,9 +33,32 @@ conn_str = (
     f'PWD={password}'
 )
 
+transport_ids = [
+    "72359278599178561029675",
+    "15668407856331648336231",
+    "73491878556297128760578",
+    "99346757838434834886542",
+    "46204863139457546291334",
+    "77631003455214677542311",
+    "34778534098134729847267",
+    "64296734612883933474299",
+    "84356113249506843372979",
+    "23964376768701928340034",
+    "55638471099438572108556",
+    "84552276793340958450995",
+    "96853785349211053482893",
+    "68345254400506854834562",
+    "67424886737245693583645",
+    "85746762813849598680239",
+    "56993454245564893300000",
+    "95662334024905944384522",
+    "13456783852887496020345",
+    "76381745965049879836902"
+]
+
 # Def Verbindung Datenbank
 def fetch_data():
-    transport_id = entry_transport_id.get()
+    transport_id = dropdown_transport_id.get()
     if not transport_id:
         messagebox.showerror(lang["Fehler"], lang["Bitte eine valide Transport ID eingeben."])
         return
@@ -66,6 +89,7 @@ def display_results(results, transport_id):
         for i, header in enumerate(headers): # enumerate zählt hier die listeneinträge
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
+            
 # zwischengespeicherte Variablen zur Verwendung bei Fehlerabfrage
         previous_datetime = None
         previous_direction = None
@@ -237,8 +261,17 @@ root.geometry("900x700")
 # Überschrift Eingabebox Knopf
 label_transport_id = ctk.CTkLabel(root, text=lang["Transport ID eingeben:"], font=("Arial", 14))
 label_transport_id.pack(pady=(60, 10))
-entry_transport_id = ctk.CTkEntry(root, width=600, font=("Arial", 12))
-entry_transport_id.pack(pady=(10, 20))
+dropdown_transport_id = ctk.CTkOptionMenu(
+    root,
+    values=transport_ids,
+    font=("Arial", 12),
+    width=600,
+    fg_color="black",  # Background color of the dropdown menu
+    button_color="black",  # Color of the button
+    button_hover_color="darkgray",  # Color when hovering over the button
+    text_color="white"  # Text color
+)
+dropdown_transport_id.pack(pady=(10, 20))
 button_execute = ctk.CTkButton(root, text=lang["Daten prüfen"], command=fetch_data, width=200)
 button_execute.pack(pady=(20, 30))
 
