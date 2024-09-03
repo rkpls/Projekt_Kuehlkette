@@ -17,7 +17,7 @@ letzte Änderung: 02.09.2024
 import pyodbc
 import customtkinter as ctk
 from tkinter import messagebox
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 # Verbindungsinfo
 server = 'sc-db-server.database.windows.net'
@@ -46,7 +46,7 @@ def fetch_data():
         cursor.execute('SELECT transportstation, category, direction, datetime FROM coolchain1 WHERE transportid = ?', (transport_id,))
         results = cursor.fetchall()
         display_results(results, transport_id)
-    except pyodbc.Error as e:
+    except pyodbc.Error as e: #Fehlerabfang, Meldung im Fenster ausgeben
         messagebox.showerror(lang["Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen."], str(e))
     finally:
         if conn:
@@ -255,3 +255,19 @@ button_language_2.place(relx=1.0, rely=0.0, anchor="ne", x=-20, y=20)
 
 # Programmstart
 root.mainloop()
+
+
+
+"""
+Copy Paste IDs mit Fehlern:
+
+15668407856331648336231
+99346757838434834886542
+77631003455214677542311
+23964376768701928340034
+55638471099438572108556
+84552276793340958450995
+68345254400506854834562
+67424886737245693583645
+56993454245564893300000
+"""
