@@ -44,7 +44,7 @@ def fetch_data():
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
         cursor.execute('SELECT transportstation, category, direction, datetime FROM coolchain1 WHERE transportid = ?', (transport_id,))
-        results = cursor.fetchall()
+        results = cursor.fetchall() # results hier eine matrix aller daten
         display_results(results, transport_id)
     except pyodbc.Error as e: #Fehlerabfang, Meldung im Fenster ausgeben
         messagebox.showerror(lang["Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen."], str(e))
@@ -54,7 +54,7 @@ def fetch_data():
 
 # Def Daten Anzeigen
 def display_results(results, transport_id):
-    
+
 # Vorherige Einträge leeren
     for widget in frame_results.winfo_children():
         widget.destroy()
@@ -69,7 +69,7 @@ def display_results(results, transport_id):
 # zwischengespeicherte Variablen zur Verwendung bei Fehlerabfrage
         previous_datetime = None
         previous_direction = None
-        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern
+        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern 1te reihe 4te spalte
         last_datetime = None
         previous_location = None
         
@@ -99,7 +99,7 @@ def display_results(results, transport_id):
 
             # auf doppelte oder fehlende Einträge prüfen
             if previous_direction:
-                if previous_direction == direction:
+                if previous_direction == direction: #wenn in auf in folgt oder out auf out folgt
                     warnung = lang["Doppelter oder fehlender Eintrag"]
 
             previous_datetime = current_datetime
@@ -122,7 +122,7 @@ def display_results(results, transport_id):
                     label.grid(row=row_index, column=col_index, padx=10, pady=5)
 
         total_time_difference = last_datetime - first_datetime
-        if total_time_difference > timedelta(hours=48): # Lieferzeit prüfen (>48h)
+        if total_time_difference > timedelta(hours=48): # Lieferzeit prüfen (>48h, verwendung timedelta wegen formatierung Zeitformat)
             final_error_label = ctk.CTkLabel(frame_results, text=lang["Transportdauer über 48 Stunden"], font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
 
@@ -261,13 +261,13 @@ root.mainloop()
 """
 Copy Paste IDs mit Fehlern:
 
-15668407856331648336231
-99346757838434834886542
-77631003455214677542311
-23964376768701928340034
-55638471099438572108556
-84552276793340958450995
-68345254400506854834562
-67424886737245693583645
-56993454245564893300000
+15668407856331648336231                 >10min
+99346757838434834886542                 >48h
+77631003455214677542311                 >10min
+23964376768701928340034                 kein auscheck
+55638471099438572108556                 - Zeit
+84552276793340958450995                 >10min
+68345254400506854834562                 selbes lager
+67424886737245693583645                 doppelt auscheck
+56993454245564893300000                 kein Eintrag
 """
