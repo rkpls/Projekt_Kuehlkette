@@ -232,7 +232,7 @@ ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 root = ctk.CTk()
 root.title("Kühlketten Überwachung")
-root.geometry("900x600") 
+root.geometry("900x700") 
 
 # Überschrift Eingabebox Knopf
 label_transport_id = ctk.CTkLabel(root, text=lang["Transport ID eingeben:"], font=("Arial", 14))
