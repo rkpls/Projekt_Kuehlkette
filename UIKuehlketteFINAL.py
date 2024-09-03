@@ -44,7 +44,7 @@ def fetch_data():
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
         cursor.execute('SELECT transportstation, category, direction, datetime FROM coolchain1 WHERE transportid = ?', (transport_id,))
-        results = cursor.fetchall() # results hier eine matrix aller daten
+        results = cursor.fetchall() # results hier eine Matrix aller Daten
         display_results(results, transport_id)
     except pyodbc.Error as e: #Fehlerabfang, Meldung im Fenster ausgeben
         messagebox.showerror(lang["Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen."], str(e))
@@ -59,7 +59,7 @@ def display_results(results, transport_id):
     for widget in frame_results.winfo_children():
         widget.destroy()
         
-    if results:
+    if results: # wenn inhalt sonst Fehler 
         
 # Tabelle erstellen
         headers = [lang["Ort"], lang["Kategorie"], lang["Richtung"], lang["Zeitstempel"], lang["Dauer"], lang["Warnung"]]
@@ -69,10 +69,10 @@ def display_results(results, transport_id):
 # zwischengespeicherte Variablen zur Verwendung bei Fehlerabfrage
         previous_datetime = None
         previous_direction = None
-        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern 1te reihe 4te spalte
+        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern 1te reihe 4te spalte der MAtrix
         last_datetime = None
         previous_location = None
-        
+
 # Schleife zum Eintragen der Daten in die Tabelle
         for row_index, row in enumerate(results, start=1):
             transportstation, category, direction, current_datetime = row
@@ -95,18 +95,18 @@ def display_results(results, transport_id):
                     warnung = lang["Übergabezeit über 10 Minuten"]
 
             else:
-                time_diff_str = "N/A"
+                time_diff_str = "N/A" # im der ersten Zeile kein delta daher N/A
 
             # auf doppelte oder fehlende Einträge prüfen
             if previous_direction:
-                if previous_direction == direction: #wenn in auf in folgt oder out auf out folgt
+                if previous_direction == direction: #wenn in auf in folgt oder out auf out
                     warnung = lang["Doppelter oder fehlender Eintrag"]
 
             previous_datetime = current_datetime
             previous_direction = direction
 
             # Doppelten Ort Überprüfen
-            if direction == "'in'" and previous_location == transportstation:
+            if direction == "'in'" and previous_location == transportstation: # In der Zeile vor einer Zeile mit 'in' darf nicht derselbe Ort sein
                 warnung = lang["Transportstation ist doppelt"]
                 
             previous_location = transportstation
