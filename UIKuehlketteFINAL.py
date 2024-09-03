@@ -63,10 +63,10 @@ def display_results(results, transport_id):
         
 # Tabelle erstellen
         headers = [lang["Ort"], lang["Kategorie"], lang["Richtung"], lang["Zeitstempel"], lang["Dauer"], lang["Warnung"]]
-        for i, header in enumerate(headers):
+        for i, header in enumerate(headers): # enumerate zählt hier die listeneinträge
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
-
+# zwischengespeicherte Variablen zur Verwendung bei Fehlerabfrage
         previous_datetime = None
         previous_direction = None
         first_datetime = results[0][3]  # Ersten Zeiteintrag speichern
@@ -86,11 +86,11 @@ def display_results(results, transport_id):
                 time_difference = current_datetime - previous_datetime
                 time_diff_str = str(time_difference)
                 
-                # Zeitstempel prüfen
+                # Zeitstempel prüfen (negativ)
                 if time_difference.total_seconds() < 1:
                     warnung = lang["Nicht plausibler Zeitstempel"]
 
-                # Übergabezeit prüfen
+                # Übergabezeit prüfen (>10min)
                 if direction == "'in'" and time_difference > timedelta(minutes=10):
                     warnung = lang["Übergabezeit über 10 Minuten"]
 
@@ -110,7 +110,7 @@ def display_results(results, transport_id):
                 warnung = lang["Transportstation ist doppelt"]
                 
             previous_location = transportstation
-                
+
             # Spalten Anzeigen
             row_data = [transportstation, category, direction, current_datetime, time_diff_str, warnung]
             for col_index, item in enumerate(row_data):
@@ -122,7 +122,7 @@ def display_results(results, transport_id):
                     label.grid(row=row_index, column=col_index, padx=10, pady=5)
 
         total_time_difference = last_datetime - first_datetime
-        if total_time_difference > timedelta(hours=48):
+        if total_time_difference > timedelta(hours=48): # Lieferzeit prüfen (>48h)
             final_error_label = ctk.CTkLabel(frame_results, text=lang["Transportdauer über 48 Stunden"], font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
 
@@ -227,12 +227,12 @@ LANGUAGES = {
 # Sprache bei Start
 lang = LANGUAGES["DE"]
 
-# UI Fenster aufsetzen
+# UI Fenster aufsetzen: Dark mode, blaue akzente, Name, größe
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 root = ctk.CTk()
 root.title("Kühlketten Überwachung")
-root.geometry("900x600")
+root.geometry("900x600") 
 
 # Überschrift Eingabebox Knopf
 label_transport_id = ctk.CTkLabel(root, text=lang["Transport ID eingeben:"], font=("Arial", 14))
