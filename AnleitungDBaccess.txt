@@ -24,3 +24,5 @@ Tkinter:
 win+r cmd
     pip install customtkinter
 
+Pillow (icons)
+    pip install pillow
