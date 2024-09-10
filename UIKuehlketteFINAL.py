@@ -67,7 +67,7 @@ def fetch_data():
         conn = pyodbc.connect(conn_str)
         cursor = conn.cursor()
         cursor.execute('SELECT transportstation, category, direction, datetime FROM coolchain1 WHERE transportid = ?', (transport_id,))
-        results = cursor.fetchall() # results hier eine Matrix aller Daten
+        results = cursor.fetchall() # results: hier eine Matrix aller Daten
         display_results(results, transport_id)
     except pyodbc.Error as e: #Fehlerabfang, Meldung im Fenster ausgeben
         messagebox.showerror(lang["Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen."], str(e))
@@ -82,18 +82,18 @@ def display_results(results, transport_id):
     for widget in frame_results.winfo_children():
         widget.destroy()
         
-    if results: # wenn inhalt sonst Fehler 
+    if results: # wenn Inhalt sonst Fehler 
         
 # Tabelle erstellen
         headers = [lang["Ort"], lang["Kategorie"], lang["Richtung"], lang["Zeitstempel"], lang["Dauer"], lang["Warnung"]]
-        for i, header in enumerate(headers): # enumerate zählt hier die listeneinträge
+        for i, header in enumerate(headers): # enumerate zählt hier die Listeneinträge
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
             
 # zwischengespeicherte Variablen zur Verwendung bei Fehlerabfrage
         previous_datetime = None
         previous_direction = None
-        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern 1te reihe 4te spalte der MAtrix
+        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern 1te Reihe 4te Spalte der Matrix
         last_datetime = None
         previous_location = None
 
@@ -251,7 +251,7 @@ LANGUAGES = {
 # Sprache bei Start
 lang = LANGUAGES["DE"]
 
-# UI Fenster aufsetzen: Dark mode, blaue akzente, Name, größe
+# UI Fenster aufsetzen: Dark mode, blaue Akzente, Name, Größe
 ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 root = ctk.CTk()
@@ -266,10 +266,10 @@ dropdown_transport_id = ctk.CTkOptionMenu(
     values=transport_ids,
     font=("Arial", 12),
     width=600,
-    fg_color="black",  # Background color of the dropdown menu
-    button_color="black",  # Color of the button
-    button_hover_color="darkgray",  # Color when hovering over the button
-    text_color="white"  # Text color
+    fg_color="black",  # Hintergrundfarbe des drop down menu
+    button_color="black",  # Farbe des Schalters
+    button_hover_color="darkgray",  # Farbe wenn über den Schalter/Knopf gefahren wird
+    text_color="white"  # Textfarbe
 )
 dropdown_transport_id.pack(pady=(10, 20))
 button_execute = ctk.CTkButton(root, text=lang["Daten prüfen"], command=fetch_data, width=200)
