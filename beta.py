@@ -177,7 +177,7 @@ root.title("Kühlketten Überwachung")
 root.geometry("900x700")
 
 # Load flag images
-de_flag_img = ImageTk.PhotoImage(Image.open("de_flag.png").resize((30, 30)))
+de_flag_img = ImageTk.PhotoImage(Image.open("de_flag.png").resize((50, 50)))
 en_flag_img = ImageTk.PhotoImage(Image.open("en_flag.png").resize((30, 30)))
 ar_flag_img = ImageTk.PhotoImage(Image.open("ar_flag.png").resize((30, 30)))
 
