@@ -10,8 +10,8 @@ Kurs:
 ETS23-Python-SIZ-RSE
 
 Projekt:
-ETS-CoolChainProject-1 V1.2 Phase 1
-letzte Änderung: 03.09.2024
+ETS-CoolChainProject-1 V1.3 Phase 1
+letzte Änderung: 17.09.2024
 """
 
 import pyodbc
@@ -75,67 +75,59 @@ def fetch_data():
         if conn:
             conn.close()
 
+from datetime import datetime  # Ensure you have this import
+
 # Def Daten Anzeigen
 def display_results(results, transport_id):
 
-# Vorherige Einträge leeren
     for widget in frame_results.winfo_children():
         widget.destroy()
-        
-    if results: # wenn Inhalt sonst Fehler 
-        
-# Tabelle erstellen
+
+    if results:
+
         headers = [lang["Ort"], lang["Kategorie"], lang["Richtung"], lang["Zeitstempel"], lang["Dauer"], lang["Warnung"]]
-        for i, header in enumerate(headers): # enumerate zählt hier die Listeneinträge
+        for i, header in enumerate(headers):
             label = ctk.CTkLabel(frame_results, text=header, font=("Arial", 12, "bold"))
             label.grid(row=0, column=i, padx=10, pady=5)
-            
-# zwischengespeicherte Variablen zur Verwendung bei Fehlerabfrage
+
         previous_datetime = None
         previous_direction = None
-        first_datetime = results[0][3]  # Ersten Zeiteintrag speichern 1te Reihe 4te Spalte der Matrix
+        first_datetime = results[0][3]
         last_datetime = None
         previous_location = None
 
-# Schleife zum Eintragen der Daten in die Tabelle
         for row_index, row in enumerate(results, start=1):
             transportstation, category, direction, current_datetime = row
 
-            last_datetime = current_datetime  # aktuellen Zeiteintrag als letzten speichern
+            last_datetime = current_datetime
+            last_direction = direction  # Store the last direction for transport completion check
             warnung = " "
 
-# Datenbank Fehler erkennen und auswerten:
-            # Zeitdifferenz berechnen
             if previous_datetime:
                 time_difference = current_datetime - previous_datetime
                 time_diff_str = str(time_difference)
-                
-                # Zeitstempel prüfen (negativ)
+
                 if time_difference.total_seconds() < 1:
                     warnung = lang["Nicht plausibler Zeitstempel"]
 
-                # Übergabezeit prüfen (>10min)
                 if direction == "'in'" and time_difference > timedelta(minutes=10):
                     warnung = lang["Übergabezeit über 10 Minuten"]
 
             else:
-                time_diff_str = "N/A" # im der ersten Zeile kein delta daher N/A
+                time_diff_str = "N/A"
 
-            # auf doppelte oder fehlende Einträge prüfen
             if previous_direction:
-                if previous_direction == direction: #wenn in auf in folgt oder out auf out
+                if previous_direction == direction:
                     warnung = lang["Doppelter oder fehlender Eintrag"]
 
             previous_datetime = current_datetime
             previous_direction = direction
 
-            # Doppelten Ort Überprüfen
-            if direction == "'in'" and previous_location == transportstation: # In der Zeile vor einer Zeile mit 'in' darf nicht derselbe Ort sein
+            if direction == "'in'" and previous_location == transportstation:
                 warnung = lang["Transportstation ist doppelt"]
-                
+
             previous_location = transportstation
 
-            # Spalten Anzeigen
             row_data = [transportstation, category, direction, current_datetime, time_diff_str, warnung]
             for col_index, item in enumerate(row_data):
                 if col_index == 5:
@@ -146,14 +138,21 @@ def display_results(results, transport_id):
                     label.grid(row=row_index, column=col_index, padx=10, pady=5)
 
         total_time_difference = last_datetime - first_datetime
-        if total_time_difference > timedelta(hours=48): # Lieferzeit prüfen (>48h, verwendung timedelta wegen formatierung Zeitformat)
+        if total_time_difference > timedelta(hours=48):
             final_error_label = ctk.CTkLabel(frame_results, text=lang["Transportdauer über 48 Stunden"], font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 1, column=5, columnspan=1, pady=0)
 
-    else:
-        no_result_label = ctk.CTkLabel(frame_results, text=lang["Diese Transport ID existiert nicht: "] + entry_transport_id.get(), font=("Arial", 14, "bold"), text_color="black", fg_color="yellow")
-        no_result_label.pack(pady=20)
+        if last_direction == "'in'":
+            delta_to_present = datetime.now() - last_datetime
+            days = delta_to_present.days
+            hours = delta_to_present.seconds // 3600
+            final_error_label = ctk.CTkLabel(frame_results, text=f"Lieferung nicht vollständig. Zeit seit letztem Eintrag: {days}d {hours}h", font=("Arial", 14, "bold"), text_color="red")
+            final_error_label.grid(row=row_index + 2, column=5, columnspan=1, pady=0)
 
+    else:
+        no_result_label = ctk.CTkLabel(frame_results, text=lang["Diese Transport ID existiert nicht: "] + transport_id, font=("Arial", 14, "bold"), text_color="black", fg_color="yellow")
+        no_result_label.pack(pady=20)
+        
 # lokalisierung DE
 def set_german():
     global lang
