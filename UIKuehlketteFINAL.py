@@ -269,7 +269,8 @@ dropdown_transport_id = ctk.CTkOptionMenu(
     fg_color="black",  # Hintergrundfarbe des drop down menu
     button_color="black",  # Farbe des Schalters
     button_hover_color="darkgray",  # Farbe wenn über den Schalter/Knopf gefahren wird
-    text_color="white"  # Textfarbe
+    text_color="white",  # Textfarbe
+    command=lambda choice: fetch_data()  # Direkte Aufruf der Funktion nach Auswahl
 )
 dropdown_transport_id.pack(pady=(10, 20))
 button_execute = ctk.CTkButton(root, text=lang["Daten prüfen"], command=fetch_data, width=200)
