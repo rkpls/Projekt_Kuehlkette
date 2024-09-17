@@ -17,7 +17,7 @@ letzte Änderung: 17.09.2024
 import pyodbc
 import customtkinter as ctk
 from tkinter import messagebox
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 # Verbindungsinfo
 server = 'sc-db-server.database.windows.net'
@@ -75,7 +75,6 @@ def fetch_data():
         if conn:
             conn.close()
 
-from datetime import datetime  # Ensure you have this import
 
 # Def Daten Anzeigen
 def display_results(results, transport_id):
@@ -100,7 +99,7 @@ def display_results(results, transport_id):
             transportstation, category, direction, current_datetime = row
 
             last_datetime = current_datetime
-            last_direction = direction  # Store the last direction for transport completion check
+            last_direction = direction
             warnung = " "
 
             if previous_datetime:
