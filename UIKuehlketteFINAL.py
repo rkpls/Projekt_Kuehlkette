@@ -145,7 +145,7 @@ def display_results(results, transport_id):
             delta_to_present = datetime.now() - last_datetime
             days = delta_to_present.days
             hours = delta_to_present.seconds // 3600
-            final_error_label = ctk.CTkLabel(frame_results, text=f"Lieferung nicht vollständig. Zeit seit letztem Eintrag: {days}d {hours}h", font=("Arial", 14, "bold"), text_color="red")
+            final_error_label = ctk.CTkLabel(frame_results, text=lang ["Lieferung nicht vollständig. Zeit seit letztem Eintrag"] +":"+ f"{days}d {hours}h", font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 2, column=5, columnspan=1, pady=0)
 
     else:
@@ -173,7 +173,6 @@ def set_arabic():
 # update lokalisierung Button
 def update_gui_language():
     label_transport_id.configure(text=lang["Transport ID eingeben:"])
-    button_execute.configure(text=lang["Daten prüfen"])
 
     if lang == LANGUAGES["DE"]:
         button_language_1.configure(text="EN", command=set_english)
@@ -207,7 +206,7 @@ LANGUAGES = {
         "Fehler": "Fehler",
         "Bitte eine valide Transport ID eingeben.": "Bitte eine valide Transport ID eingeben.",
         "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.",
-        "Lieferung nicht vollständig. Zeit seit letztem Eintrag:": "Lieferung nicht vollständig. Zeit seit letztem Eintrag:"
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag": "Lieferung nicht vollständig. Zeit seit letztem Eintrag:"
     },
     "EN": {
         "Transport ID eingeben:": "Enter Transport ID:",
@@ -227,7 +226,7 @@ LANGUAGES = {
         "Fehler": "Error",
         "Bitte eine valide Transport ID eingeben.": "Please enter a valid Transport ID.",
         "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Database access error. Please check your network connection.",
-        "Lieferung nicht vollständig. Zeit seit letztem Eintrag:": "Delivery incomplete. Time since last entry:"
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag": "Delivery incomplete. Time since last entry"
     },
     "AR": {
         "Transport ID eingeben:": "أدخل معرف النقل:",
@@ -247,7 +246,7 @@ LANGUAGES = {
         "Fehler": "خطأ",
         "Bitte eine valide Transport ID eingeben.": "يرجى إدخال معرف نقل صالح.",
         "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "خطأ في الوصول إلى قاعدة البيانات. يرجى التحقق من اتصال الشبكة.",
-        "Lieferung nicht vollständig. Zeit seit letztem Eintrag:": "التسليم غير مكتمل. الوقت منذ آخر تسجيل:"
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag": "التسليم غير مكتمل. الوقت منذ آخر تسجيل"
     }
 }
 
@@ -276,8 +275,6 @@ dropdown_transport_id = ctk.CTkOptionMenu(
     command=lambda choice: fetch_data()  # Direkte Aufruf der Funktion nach Auswahl
 )
 dropdown_transport_id.pack(pady=(10, 20))
-button_execute = ctk.CTkButton(root, text=lang["Daten prüfen"], command=fetch_data, width=200)
-button_execute.pack(pady=(20, 30))
 
 # Rahmen für Liste
 frame_results = ctk.CTkFrame(root, width=860, height=300)
