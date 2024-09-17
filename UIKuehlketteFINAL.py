@@ -184,6 +184,8 @@ def update_gui_language():
     elif lang == LANGUAGES["AR"]:
         button_language_1.configure(text="DE", command=set_german)
         button_language_2.configure(text="EN", command=set_english)
+        
+    fetch_data()
 
 # hinterlegung der Sprachen
 LANGUAGES = {
@@ -254,7 +256,7 @@ ctk.set_appearance_mode("Dark")
 ctk.set_default_color_theme("blue")
 root = ctk.CTk()
 root.title("Kühlketten Überwachung")
-root.geometry("900x700") 
+root.geometry("1200x700") 
 
 # Überschrift Eingabebox Knopf
 label_transport_id = ctk.CTkLabel(root, text=lang["Transport ID eingeben:"], font=("Arial", 14))
