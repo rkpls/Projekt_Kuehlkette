@@ -206,7 +206,8 @@ LANGUAGES = {
         "Diese Transport ID existiert nicht: ": "Diese Transport ID existiert nicht: ",
         "Fehler": "Fehler",
         "Bitte eine valide Transport ID eingeben.": "Bitte eine valide Transport ID eingeben.",
-        "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen."
+        "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.",
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag:": "Lieferung nicht vollständig. Zeit seit letztem Eintrag:"
     },
     "EN": {
         "Transport ID eingeben:": "Enter Transport ID:",
@@ -225,7 +226,8 @@ LANGUAGES = {
         "Diese Transport ID existiert nicht: ": "This Transport ID does not exist: ",
         "Fehler": "Error",
         "Bitte eine valide Transport ID eingeben.": "Please enter a valid Transport ID.",
-        "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Database access error. Please check your network connection."
+        "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "Database access error. Please check your network connection.",
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag:": "Delivery incomplete. Time since last entry:"
     },
     "AR": {
         "Transport ID eingeben:": "أدخل معرف النقل:",
@@ -244,7 +246,8 @@ LANGUAGES = {
         "Diese Transport ID existiert nicht: ": "معرف النقل هذا غير موجود: ",
         "Fehler": "خطأ",
         "Bitte eine valide Transport ID eingeben.": "يرجى إدخال معرف نقل صالح.",
-        "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "خطأ في الوصول إلى قاعدة البيانات. يرجى التحقق من اتصال الشبكة."
+        "Fehler bei Datenbankzugriff. Netzwerkverbindung prüfen.": "خطأ في الوصول إلى قاعدة البيانات. يرجى التحقق من اتصال الشبكة.",
+        "Lieferung nicht vollständig. Zeit seit letztem Eintrag:": "التسليم غير مكتمل. الوقت منذ آخر تسجيل:"
     }
 }
 
