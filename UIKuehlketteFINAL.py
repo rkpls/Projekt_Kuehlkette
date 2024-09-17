@@ -144,9 +144,8 @@ def display_results(results, transport_id):
         if last_direction == "'in'":
             delta_to_present = datetime.now() - last_datetime
             days = delta_to_present.days
-            hours = delta_to_present.seconds // 3600
-            delta = str(f" {days}d {hours}h")
-            final_error_label = ctk.CTkLabel(frame_results, text=lang ["Lieferung nicht vollständig. Zeit seit letztem Eintrag: "] + '\u200e' + delta, font=("Arial", 14, "bold"), text_color="red")
+            hours = delta_to_present.seconds // 3600    
+            final_error_label = ctk.CTkLabel(frame_results, text=lang ["Lieferung nicht vollständig. Zeit seit letztem Eintrag: "] + '\u200e' + f" {days}d {hours}h", font=("Arial", 14, "bold"), text_color="red")
             final_error_label.grid(row=row_index + 2, column=5, columnspan=1, pady=0)
 
     else:
