@@ -250,7 +250,7 @@ LANGUAGES = {
     }
 }
 
-# Sprache bei Start
+# Sprache bei Start 
 lang = LANGUAGES["DE"]
 
 # UI Fenster aufsetzen: Dark mode, blaue Akzente, Name, Größe
